@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+import { faker } from '@faker-js/faker';
+
 const UI_URL = 'http://localhost:5173';
 
 test('should allow user to sign in', async ({ page }) => {
@@ -24,6 +26,7 @@ test('should allow user to sign in', async ({ page }) => {
 });
 
 test('should allow a user to register', async ({ page }) => {
+    const password = faker.internet.password();
     await page.goto(UI_URL);
 
     await page.getByRole('link', { name: 'Sign up' }).click();
@@ -32,11 +35,11 @@ test('should allow a user to register', async ({ page }) => {
         page.getByRole('heading', { name: 'Create an account' })
     ).toBeVisible();
 
-    await page.locator('[name=firstName]').fill('Ruben2');
-    await page.locator('[name=lastName]').fill('Mills2');
-    await page.locator('[name=email]').fill('ruben2.mills@example.com');
-    await page.locator('[name=password]').fill('Drl6aSw6&eB');
-    await page.locator('[name=confirmPassword]').fill('Drl6aSw6&eB');
+    await page.locator('[name=firstName]').fill(faker.person.firstName());
+    await page.locator('[name=lastName]').fill(faker.person.lastName());
+    await page.locator('[name=email]').fill(faker.internet.email());
+    await page.locator('[name=password]').fill(password);
+    await page.locator('[name=confirmPassword]').fill(password);
 
     await page.getByRole('button', { name: 'Create an Account' }).click();
 
