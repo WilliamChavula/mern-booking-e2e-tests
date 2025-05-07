@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const UI_URL = 'http://localhost:5173';
 
-test.describe('e2e tests for search hotels feature', () => {
+test.describe('e2e tests for hotel feature', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto(UI_URL);
 
@@ -30,5 +30,18 @@ test.describe('e2e tests for search hotels feature', () => {
         ).toBeVisible();
 
         await expect(page.getByText('The Roosevelt')).toBeVisible();
+    });
+
+    test('should show hotel detail', async ({ page }) => {
+        await page.goto(`${UI_URL}`);
+
+        await page.getByPlaceholder(/where are you going?/).fill('Richardson');
+        await page.getByRole('button', { name: /Search/ }).click();
+        await page.getByText('The Roosevelt').click();
+
+        await expect(page).toHaveURL(/detail/);
+        await expect(
+            page.getByRole('button', { name: /Book Now/ })
+        ).toBeVisible();
     });
 });
