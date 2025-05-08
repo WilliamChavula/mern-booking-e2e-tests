@@ -78,5 +78,8 @@ test.describe('e2e tests for hotel feature', () => {
 
         await page.getByRole('button', { name: /Confirm Booking/ }).click();
         await expect(page.getByText('Hotel Room Booked.')).toBeVisible();
+
+        await page.getByRole('link', { name: /My Bookings/ }).click();
+        await expect(page.getByText('The Roosevelt')).toBeVisible();
     });
 });
